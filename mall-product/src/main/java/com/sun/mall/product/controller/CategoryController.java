@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2022-10-26 20:56:18
  */
 @RestController
-@RequestMapping("product/category")
+@RequestMapping("/product/category")
 @SuppressWarnings("ALL")
 public class CategoryController {
     @Autowired

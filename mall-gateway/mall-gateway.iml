@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+    <facet type="JRebel" name="JRebel">
+      <configuration>
+        <option name="ideModuleStorage">
+          <map>
+            <entry key="com.zeroturnaround.jrebel.FormatVersion" value="7.0.0" />
+            <entry key="jrebelEnabled" value="true" />
+            <entry key="lastExternalPluginCheckTime" value="1667455784792" />
+          </map>
+        </option>
+        <option name="version" value="25" />
+      </configuration>
+    </facet>
     <facet type="Spring" name="Spring">
       <configuration />
     </facet>
@@ -16,7 +28,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.sun.mall:mall-common:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="mall-common" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />

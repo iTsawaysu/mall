@@ -22,7 +22,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sun.mall</groupId>
+            <groupId>com.sun.mall.common</groupId>
             <artifactId>mall-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>

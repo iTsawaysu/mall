@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Map;
 
-
-
 /**
  * spu信息
  *
@@ -20,7 +18,8 @@ import java.util.Map;
  * @date 2022-10-26 20:56:18
  */
 @RestController
-@RequestMapping("product/spuinfo")
+@SuppressWarnings("ALL")
+@RequestMapping("/product/spuinfo")
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;

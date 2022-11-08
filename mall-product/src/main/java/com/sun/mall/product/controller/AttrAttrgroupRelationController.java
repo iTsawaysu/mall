@@ -20,7 +20,8 @@ import java.util.Map;
  * @date 2022-10-26 20:56:18
  */
 @RestController
-@RequestMapping("product/attrattrgrouprelation")
+@SuppressWarnings("ALL")
+@RequestMapping("/product/attrAttrGroupRelation")
 public class AttrAttrgroupRelationController {
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
