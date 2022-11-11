@@ -6,23 +6,20 @@
                        active-text="开启拖拽"
                        inactive-text="关闭拖拽"
                        active-color="#13ce66"
-                       inactive-color="#ff4949">
-            </el-switch>
+                       inactive-color="#ff4949"></el-switch>
 
             <el-button v-if="isDraggable"
                        style="margin-right: 10px"
                        type="primary"
                        size="small"
                        round
-                       @click="batchSave">
-                批量保存
+                       @click="batchSave">批量保存
             </el-button>
 
             <el-button type="danger"
                        size="small"
                        round
-                       @click="batchDelete">
-                批量删除
+                       @click="batchDelete">批量删除
             </el-button>
         </div>
 
@@ -64,7 +61,8 @@
                     <el-input v-model="category.icon" autocomplete="off" @keyup.enter.native="addCategory"></el-input>
                 </el-form-item>
                 <el-form-item label="计量单位" prop="productUnit">
-                    <el-input v-model="category.productUnit" autocomplete="off" @keyup.enter.native="addCategory"></el-input>
+                    <el-input v-model="category.productUnit" autocomplete="off"
+                              @keyup.enter.native="addCategory"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -89,7 +87,16 @@ export default {
             dialogFormVisible: false,
             dialogTitle: "",
             submitType: "",
-            category: {name: "", parentCid: 0, catLevel: 0, showStatus: 1, sort: 0, icon: "", productUnit: "", catId: null},
+            category: {
+                name: "",
+                parentCid: 0,
+                catLevel: 0,
+                showStatus: 1,
+                sort: 0,
+                icon: "",
+                productUnit: "",
+                catId: null
+            },
             defaultProps: {
                 // 指定哪个属性作为子树节点对象展示（CategoryEntity 的 List<CategoryEntity> children 属性）
                 children: 'children',
@@ -120,9 +127,6 @@ export default {
             for (let i = 0; i < checkedNodes.length; i++) {
                 batchDeleteCatIds.push(checkedNodes[i].catId);
             }
-            console.log(checkedNodes);
-            console.log(checkedNodes[0].parentCid);
-            console.log(batchDeleteCatIds);
 
             this.$confirm("此操作将永久删除, 是否继续?", '提示', {
                 confirmButtonText: '确定',
@@ -175,7 +179,7 @@ export default {
             let parentId = 0;
             let siblings = null;
             if (dropType == "before" || dropType == "after") {
-                parentId = dropNode.parent.data.catId == undefined ? 0: dropNode.parent.data.catId;
+                parentId = dropNode.parent.data.catId == undefined ? 0 : dropNode.parent.data.catId;
                 siblings = dropNode.parent.childNodes;
             } else {
                 parentId = dropNode.data.catId;
@@ -185,16 +189,21 @@ export default {
             // 遍历所有的兄弟节点：如果是拖拽节点，传入 catId、sort、parentCid、catLevel；如果是兄弟节点传入 catId、sort。
             for (let i = 0; i < siblings.length; i++) {
                 // 如果遍历的是当前正在拖拽的节点
-                if (siblings[i].data.catId == draggingNode.data.catId){
+                if (siblings[i].data.catId == draggingNode.data.catId) {
                     let catLevel = draggingNode.level;
                     // 当前节点的层级发生变化
-                    if (siblings[i].level != draggingNode.level){
+                    if (siblings[i].level != draggingNode.level) {
                         catLevel = siblings[i].level;
                         // 修改子节点的层级
                         this.updateChildNodeLevel(siblings[i]);
                     }
-                    this.updateNodes.push({catId: siblings[i].data.catId, sort: i, parentCid: parentId, catLevel: catLevel});
-                }else{
+                    this.updateNodes.push({
+                        catId: siblings[i].data.catId,
+                        sort: i,
+                        parentCid: parentId,
+                        catLevel: catLevel
+                    });
+                } else {
                     this.updateNodes.push({catId: siblings[i].data.catId, sort: i});
                 }
             }
@@ -203,9 +212,9 @@ export default {
         },
 
         // 修改拖拽节点的子节点的层级
-        updateChildNodeLevel(node){
-            if (node.childNodes.length > 0){
-                for (let i = 0; i < node.childNodes.length; i++){
+        updateChildNodeLevel(node) {
+            if (node.childNodes.length > 0) {
+                for (let i = 0; i < node.childNodes.length; i++) {
                     // 遍历子节点，传入 catId、catLevel
                     let cNode = node.childNodes[i].data;
                     this.updateNodes.push({catId: cNode.catId, catLevel: node.childNodes[i].level});

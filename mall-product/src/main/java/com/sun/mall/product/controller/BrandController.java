@@ -46,7 +46,6 @@ public class BrandController {
      * 信息
      */
     @RequestMapping("/info/{brandId}")
-    // @RequiresPermissions("product:brand:info")
     public R info(@PathVariable("brandId") Long brandId) {
         BrandEntity brand = brandService.getById(brandId);
         return R.ok().put("brand", brand);
@@ -56,19 +55,17 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    // @RequiresPermissions("product:brand:save")
     public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand) {
         brandService.save(brand);
         return R.ok();
     }
 
     /**
-     * 修改
+     * 更新品牌表，并且更新品牌分类关联表。
      */
     @RequestMapping("/update")
-    // @RequiresPermissions("product:brand:update")
     public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand) {
-        brandService.updateById(brand);
+        brandService.updateBrandAndRelation(brand);
         return R.ok();
     }
 

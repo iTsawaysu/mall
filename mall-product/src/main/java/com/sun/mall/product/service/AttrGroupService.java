@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public interface AttrGroupService extends IService<AttrGroupEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 根据 分类ID 查询 属性分组
+     */
+    PageUtils queryAttrGroupsByCategoryId(Map<String, Object> params, Long catelogId);
 }
 

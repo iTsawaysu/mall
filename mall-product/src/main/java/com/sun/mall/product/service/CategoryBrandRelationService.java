@@ -1,10 +1,9 @@
 package com.sun.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.product.entity.CategoryBrandRelationEntity;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 品牌分类关联
@@ -15,6 +14,14 @@ import java.util.Map;
  */
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelationEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 根据 BrandId 查询分类
+     */
+    List<CategoryBrandRelationEntity> getCategoriesByBrandId(Long brandId);
+
+    /**
+     * 新增 品牌&分类 关系
+     */
+    void addBrandCategoryRelation(CategoryBrandRelationEntity categoryBrandRelation);
 }
 

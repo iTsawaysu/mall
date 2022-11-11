@@ -25,9 +25,18 @@ public interface CategoryService extends IService<CategoryEntity> {
     List<CategoryEntity> displayWithTreeStructure();
 
     /**
-     *
-     * @param catIds
+     * 根据 ID 移除分类
      */
     void removeCategoriesByIds(List<Long> catIds);
+
+    /**
+     * 根据 三级分类ID 获取完整路径[1st, 2nd, 3rd]
+     */
+    Long[] getCompletePathByCategoryId(Long catelogId);
+
+    /**
+     * 更新分类表，并且更新品牌分类关联表。
+     */
+    void updateCategoryAndRelation(CategoryEntity category);
 }
 
