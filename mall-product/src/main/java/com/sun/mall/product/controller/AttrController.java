@@ -2,14 +2,14 @@ package com.sun.mall.product.controller;
 
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
-import com.sun.mall.product.entity.AttrEntity;
 import com.sun.mall.product.service.AttrService;
+import com.sun.mall.vo.AttrResponseVo;
+import com.sun.mall.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Map;
-
 
 
 /**
@@ -29,34 +29,35 @@ public class AttrController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    // @RequiresPermissions("product:attr:list")
-    public R list(@RequestParam Map<String, Object> params){
+    @GetMapping("/list")
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = attrService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/{attrType}/list/{catelogId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("attrType") String attrType,
+                          @PathVariable("catelogId") Long catelogId) {
+        PageUtils page = attrService.queryBaseAttrPage(params, attrType, catelogId);
+        return R.ok().put("page", page);
+    }
 
     /**
-     * 信息
+     * 通过 属性ID 获取属性的详细信息
      */
     @RequestMapping("/info/{attrId}")
-    // @RequiresPermissions("product:attr:info")
-    public R info(@PathVariable("attrId") Long attrId){
-            AttrEntity attr = attrService.getById(attrId);
-
+    public R info(@PathVariable("attrId") Long attrId) {
+        AttrResponseVo attr = attrService.getAttrDetailByAttrId(attrId);
         return R.ok().put("attr", attr);
     }
 
     /**
-     * 保存
+     * 新增属性的同时信息到 属性&属性分组关联表 中
      */
     @RequestMapping("/save")
-    // @RequiresPermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-            attrService.save(attr);
-
+    public R save(@RequestBody AttrVo attrVo) {
+        attrService.saveAttr(attrVo);
         return R.ok();
     }
 
@@ -64,10 +65,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    // @RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-            attrService.updateById(attr);
-
+    public R update(@RequestBody AttrVo attrVo) {
+        attrService.updateAttr(attrVo);
         return R.ok();
     }
 
@@ -75,11 +74,8 @@ public class AttrController {
      * 删除
      */
     @RequestMapping("/delete")
-    // @RequiresPermissions("product:attr:delete")
-    public R delete(@RequestBody Long[] attrIds){
-            attrService.removeByIds(Arrays.asList(attrIds));
-
+    public R delete(@RequestBody Long[] attrIds) {
+        attrService.removeByIds(Arrays.asList(attrIds));
         return R.ok();
     }
-
 }

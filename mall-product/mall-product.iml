@@ -22,7 +22,7 @@
             <entry key="lastExternalPluginCheckTime" value="1667372419885" />
           </map>
         </option>
-        <option name="version" value="27" />
+        <option name="version" value="38" />
       </configuration>
     </facet>
   </component>
@@ -38,6 +38,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mall-common" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.8.8" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-extension:3.2.0" level="project" />

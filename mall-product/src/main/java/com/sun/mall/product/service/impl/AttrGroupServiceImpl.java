@@ -23,21 +23,19 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     @Override
     public PageUtils queryAttrGroupsByCategoryId(Map<String, Object> params, Long catelogId) {
         LambdaQueryWrapper<AttrGroupEntity> wrapper = new LambdaQueryWrapper<>();
+        if (catelogId != 0) {
+            wrapper.eq(AttrGroupEntity::getCatelogId, catelogId);
+        }
+
         String key = (String) params.get("key");
         if (StrUtil.isNotBlank(key)) {
             // select * from psm_attr_group where catelog_id = catelogId and (attr_group_id = key or attr_group_name like %key%)
             wrapper.and(one -> {
-                one.eq(AttrGroupEntity::getAttrGroupId, key).or(two -> two.like(AttrGroupEntity::getAttrGroupName, key));
+                one.eq(AttrGroupEntity::getAttrGroupId, key).or().like(AttrGroupEntity::getAttrGroupName, key);
             });
         }
 
-        if (catelogId == 0) {
-            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), wrapper);
-            return new PageUtils(page);
-        } else {
-            wrapper.eq(AttrGroupEntity::getCatelogId, catelogId);
-            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), wrapper);
-            return new PageUtils(page);
-        }
+        IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params), wrapper);
+        return new PageUtils(page);
     }
 }

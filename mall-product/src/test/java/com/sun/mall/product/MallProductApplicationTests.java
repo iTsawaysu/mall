@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
 @Slf4j
@@ -21,6 +23,11 @@ public class MallProductApplicationTests {
     @Test
     public void contextLoads() {
         log.info("完整路径：{}", Arrays.asList(categoryService.getCompletePathByCategoryId(226L)));
+        try {
+            System.out.println(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException e) {
+            log.error("error: {}", e);
+        }
     }
 
 }

@@ -10,7 +10,7 @@
             <entry key="lastExternalPluginCheckTime" value="1667455784792" />
           </map>
         </option>
-        <option name="version" value="25" />
+        <option name="version" value="36" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -29,6 +29,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mall-common" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.8.8" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.12" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />

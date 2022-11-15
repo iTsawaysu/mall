@@ -1,9 +1,9 @@
 <template>
     <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="4">
             <category @tree-node-click="treeNodeClick"></category>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="20">
             <div class="mod-config">
                 <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
                     <el-form-item>
