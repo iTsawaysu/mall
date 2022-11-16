@@ -4,6 +4,7 @@ import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.product.entity.AttrEntity;
 import com.sun.mall.product.entity.AttrGroupEntity;
+import com.sun.mall.product.service.AttrAttrgroupRelationService;
 import com.sun.mall.product.service.AttrGroupService;
 import com.sun.mall.product.service.AttrService;
 import com.sun.mall.product.service.CategoryService;
@@ -36,6 +37,9 @@ public class AttrGroupController {
     @Resource
     private AttrService attrService;
 
+    @Resource
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
     /**
      * 根据 groupId 查询 当前分组关联的所有属性
      */
@@ -43,6 +47,16 @@ public class AttrGroupController {
     public R getAssociatedAttrByGroupId(@PathVariable("groupId") Long groupId) {
         List<AttrEntity> attrEntityList = attrService.getAssociatedAttrByGroupId(groupId);
         return R.ok().put("data", attrEntityList);
+    }
+
+    /**
+     * 根据 groupId 查询 当前分组未关联的所有属性
+     */
+    @GetMapping("/{groupId}/noattr/relation")
+    public R getNotAssociatedAttrByGroupId(@PathVariable("groupId") Long groupId,
+                                           @RequestParam Map<String, Object> params) {
+        PageUtils page = attrService.getNotAssociatedAttrByGroupId(groupId, params);
+        return R.ok().put("page", page);
     }
 
     /**
@@ -67,9 +81,18 @@ public class AttrGroupController {
     }
 
     /**
+     * 添加属性和分组的关联关系
+     */
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> attrGroupRelationVoList) {
+        attrAttrgroupRelationService.saveBatchAssociatedRelation(attrGroupRelationVoList);
+        return R.ok();
+    }
+
+    /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] attrGroupIds) {
         attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
         return R.ok();

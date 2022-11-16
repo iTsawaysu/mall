@@ -46,7 +46,7 @@ public class AttrController {
     /**
      * 通过 属性ID 获取属性的详细信息
      */
-    @RequestMapping("/info/{attrId}")
+    @GetMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId) {
         AttrResponseVo attr = attrService.getAttrDetailByAttrId(attrId);
         return R.ok().put("attr", attr);
@@ -55,7 +55,7 @@ public class AttrController {
     /**
      * 新增属性的同时信息到 属性&属性分组关联表 中
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody AttrVo attrVo) {
         attrService.saveAttr(attrVo);
         return R.ok();
@@ -64,7 +64,7 @@ public class AttrController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody AttrVo attrVo) {
         attrService.updateAttr(attrVo);
         return R.ok();
@@ -73,7 +73,7 @@ public class AttrController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] attrIds) {
         attrService.removeByIds(Arrays.asList(attrIds));
         return R.ok();

@@ -68,7 +68,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         BeanUtil.copyProperties(attrVo, attrEntity);
         this.save(attrEntity);
 
-        if (attrVo.getAttrType().equals(ProductConstants.AttrEnum.ATTR_TYPE_BASE.getCode())) {
+        if (attrVo.getAttrType().equals(ProductConstants.AttrEnum.ATTR_TYPE_BASE.getCode()) && attrVo.getAttrGroupId() != null) {
             AttrAttrgroupRelationEntity relation = new AttrAttrgroupRelationEntity();
             relation.setAttrId(attrEntity.getAttrId());
             relation.setAttrGroupId(attrVo.getAttrGroupId());
@@ -106,7 +106,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                                 .lambdaQuery()
                                 .eq(AttrAttrgroupRelationEntity::getAttrId, attrResponseVo.getAttrId())
                                 .one();
-                        if (ObjectUtil.isNotNull(relation)) {
+                        if (ObjectUtil.isNotNull(relation) && relation.getAttrGroupId() != null) {
                             AttrGroupEntity attrGroup = attrGroupService.getById(relation.getAttrGroupId());
                             attrResponseVo.setGroupName(attrGroup.getAttrGroupName());
                         }
@@ -205,5 +205,49 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         // DELETE FROM psm_attr_attrgroup_relation WHERE (attr_id = ? AND attr_group_id = ?) OR (attr_id = ? AND attr_group_id = ?) OR ...
         attrAttrgroupRelationDao.deleteBatchByRelations(relationList);
+    }
+
+    @Override
+    public PageUtils getNotAssociatedAttrByGroupId(Long groupId, Map<String, Object> params) {
+        // 当前分组只能关联 自己所属分类中的属性；当前分组只能关联 其所属分组中其他分组未引用的属性。
+        AttrGroupEntity attrGroup = attrGroupService.getById(groupId);
+        Long catelogId = attrGroup.getCatelogId();
+
+        // 1. 找到其他分组关联的属性，并且将其排除。（当前分组所关联的属性也需要排除）
+        List<AttrGroupEntity> attrGroupEntityList = attrGroupService
+                .lambdaQuery()
+                .eq(AttrGroupEntity::getCatelogId, catelogId)
+                .list();
+        List<Long> attrGroupIdList = attrGroupEntityList
+                .stream()
+                .map(item -> item.getAttrGroupId())
+                .collect(Collectors.toList());
+
+        // 获取所有分组所关联的属性。
+        List<AttrAttrgroupRelationEntity> relationList = attrAttrgroupRelationService
+                .lambdaQuery()
+                .in(AttrAttrgroupRelationEntity::getAttrGroupId, attrGroupIdList)
+                .list();
+        List<Long> attrIdList = relationList
+                .stream()
+                .map(item -> item.getAttrId())
+                .collect(Collectors.toList());
+
+        // 排除
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .eq("catelog_id", catelogId)
+                .eq("attr_type", ProductConstants.AttrEnum.ATTR_TYPE_BASE.getCode());
+        if (!attrIdList.isEmpty() && ObjectUtil.isNotNull(attrIdList)) {
+            wrapper.notIn("attr_id", attrIdList);
+        }
+
+        String key = (String) params.get("key");
+        if (StrUtil.isNotBlank(key)) {
+            wrapper.and(w -> {
+                w.eq("attr_id", key).or().like("attr_name", key);
+            });
+        }
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);
+        return new PageUtils(page);
     }
 }
