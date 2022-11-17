@@ -3,8 +3,8 @@ package com.sun.mall.product.controller;
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.product.service.AttrService;
-import com.sun.mall.vo.AttrResponseVo;
-import com.sun.mall.vo.AttrVo;
+import com.sun.mall.product.vo.AttrResponseVo;
+import com.sun.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +35,14 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 获取分类的 基本属性 or 销售属性
+     */
     @GetMapping("/{attrType}/list/{catelogId}")
     public R baseAttrList(@RequestParam Map<String, Object> params,
                           @PathVariable("attrType") String attrType,
                           @PathVariable("catelogId") Long catelogId) {
-        PageUtils page = attrService.queryBaseAttrPage(params, attrType, catelogId);
+        PageUtils page = attrService.queryBaseAttrOrSaleAttrPage(params, attrType, catelogId);
         return R.ok().put("page", page);
     }
 
@@ -62,7 +65,7 @@ public class AttrController {
     }
 
     /**
-     * 修改
+     * 修改基本属性
      */
     @PostMapping("/update")
     public R update(@RequestBody AttrVo attrVo) {

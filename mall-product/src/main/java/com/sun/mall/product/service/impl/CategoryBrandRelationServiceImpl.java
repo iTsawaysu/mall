@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -40,6 +41,17 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         categoryBrandRelation.setBrandName(brand.getName());
         categoryBrandRelation.setCatelogName(category.getName());
         this.save(categoryBrandRelation);
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> relationList = this.lambdaQuery()
+                .eq(CategoryBrandRelationEntity::getCatelogId, catId)
+                .list();
+        return relationList
+                .stream()
+                .map(item -> brandService.getById(item.getBrandId()))
+                .collect(Collectors.toList());
     }
 
 }

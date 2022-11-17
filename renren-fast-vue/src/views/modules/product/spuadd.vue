@@ -434,7 +434,7 @@ export default {
         },
         getMemberLevels() {
             this.$http({
-                url: this.$http.adornUrl("/member/memberlevel/list"),
+                url: this.$http.adornUrl("/member/memberLevel/list"),
                 method: "get",
                 params: this.$http.adornParams({
                     page: 1,
@@ -629,7 +629,7 @@ export default {
             if (!this.dataResp.steped[0]) {
                 this.$http({
                     url: this.$http.adornUrl(
-                        `/product/attrGroup/${this.spu.catalogId}/withattr`
+                        `/product/attrGroup/${this.spu.catalogId}/withAttr`
                     ),
                     method: "get",
                     params: this.$http.adornParams({})

@@ -21,9 +21,9 @@ import com.sun.mall.product.service.AttrAttrgroupRelationService;
 import com.sun.mall.product.service.AttrGroupService;
 import com.sun.mall.product.service.AttrService;
 import com.sun.mall.product.service.CategoryService;
-import com.sun.mall.vo.AttrGroupRelationVo;
-import com.sun.mall.vo.AttrResponseVo;
-import com.sun.mall.vo.AttrVo;
+import com.sun.mall.product.vo.AttrGroupRelationVo;
+import com.sun.mall.product.vo.AttrResponseVo;
+import com.sun.mall.product.vo.AttrVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +61,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return new PageUtils(page);
     }
 
+    /**
+     * 新增属性的同时信息到 属性&属性分组关联表 中
+     */
     @Transactional
     @Override
     public void saveAttr(AttrVo attrVo) {
@@ -77,8 +80,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
     }
 
+    /**
+     * 获取分类的 基本属性 or 销售属性
+     */
     @Override
-    public PageUtils queryBaseAttrPage(Map<String, Object> params, String attrType, Long catelogId) {
+    public PageUtils queryBaseAttrOrSaleAttrPage(Map<String, Object> params, String attrType, Long catelogId) {
         // 请求路径中的 {attrType} 为 base，则查询条件为 attrType = 1；否则，查询条件为 attrType = 0。
         LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<AttrEntity>()
                 .eq(AttrEntity::getAttrType, "base".equals(attrType)
@@ -210,10 +216,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     @Override
     public PageUtils getNotAssociatedAttrByGroupId(Long groupId, Map<String, Object> params) {
         // 当前分组只能关联 自己所属分类中的属性；当前分组只能关联 其所属分组中其他分组未引用的属性。
+        // 找到其他分组关联的属性，并且将其排除。（当前分组所关联的属性也需要排除）
         AttrGroupEntity attrGroup = attrGroupService.getById(groupId);
         Long catelogId = attrGroup.getCatelogId();
 
-        // 1. 找到其他分组关联的属性，并且将其排除。（当前分组所关联的属性也需要排除）
+        // 找到当前 分类ID 对应的所有 attrGroup
         List<AttrGroupEntity> attrGroupEntityList = attrGroupService
                 .lambdaQuery()
                 .eq(AttrGroupEntity::getCatelogId, catelogId)
@@ -223,7 +230,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 .map(item -> item.getAttrGroupId())
                 .collect(Collectors.toList());
 
-        // 获取所有分组所关联的属性。
+        // 获取该分类下所有分组所关联的属性。
         List<AttrAttrgroupRelationEntity> relationList = attrAttrgroupRelationService
                 .lambdaQuery()
                 .in(AttrAttrgroupRelationEntity::getAttrGroupId, attrGroupIdList)
@@ -234,17 +241,17 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 .collect(Collectors.toList());
 
         // 排除
-        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
-                .eq("catelog_id", catelogId)
-                .eq("attr_type", ProductConstants.AttrEnum.ATTR_TYPE_BASE.getCode());
+        LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<AttrEntity>()
+                .eq(AttrEntity::getCatelogId, catelogId)
+                .eq(AttrEntity::getAttrType, ProductConstants.AttrEnum.ATTR_TYPE_BASE.getCode());
         if (!attrIdList.isEmpty() && ObjectUtil.isNotNull(attrIdList)) {
-            wrapper.notIn("attr_id", attrIdList);
+            wrapper.notIn(AttrEntity::getAttrId, attrIdList);
         }
 
         String key = (String) params.get("key");
         if (StrUtil.isNotBlank(key)) {
             wrapper.and(w -> {
-                w.eq("attr_id", key).or().like("attr_name", key);
+                w.eq(AttrEntity::getAttrId, key).or().like(AttrEntity::getAttrName, key);
             });
         }
         IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);

@@ -188,7 +188,7 @@ export default {
             this.dataListLoading = true;
             this.$http({
                 url: this.$http.adornUrl(
-                    "/product/attrGroup/" + this.attrGroupId + "/noattr/relation"
+                    "/product/attrGroup/" + this.attrGroupId + "/noAttr/relation"
                 ),
                 method: "get",
                 params: this.$http.adornParams({

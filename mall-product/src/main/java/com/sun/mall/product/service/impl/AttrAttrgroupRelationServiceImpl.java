@@ -9,7 +9,7 @@ import com.sun.mall.common.utils.Query;
 import com.sun.mall.product.dao.AttrAttrgroupRelationDao;
 import com.sun.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.sun.mall.product.service.AttrAttrgroupRelationService;
-import com.sun.mall.vo.AttrGroupRelationVo;
+import com.sun.mall.product.vo.AttrGroupRelationVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

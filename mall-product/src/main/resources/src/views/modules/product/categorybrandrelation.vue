@@ -106,7 +106,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/product/categorybrandrelation/list'),
+          url: this.$http.adornUrl('/product/categoryBrandRelation/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -157,7 +157,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/product/categorybrandrelation/delete'),
+            url: this.$http.adornUrl('/product/categoryBrandRelation/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

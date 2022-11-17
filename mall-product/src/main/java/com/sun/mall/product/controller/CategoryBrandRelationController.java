@@ -1,13 +1,16 @@
 package com.sun.mall.product.controller;
 
 import com.sun.mall.common.utils.R;
+import com.sun.mall.product.entity.BrandEntity;
 import com.sun.mall.product.entity.CategoryBrandRelationEntity;
 import com.sun.mall.product.service.CategoryBrandRelationService;
+import com.sun.mall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -32,6 +35,23 @@ public class CategoryBrandRelationController {
         List<CategoryBrandRelationEntity> categoryBrandRelationEntityList =
                 categoryBrandRelationService.getCategoriesByBrandId(brandId);
         return R.ok().put("data", categoryBrandRelationEntityList);
+    }
+
+    /**
+     * 根据 catId 获取该分类关联的品牌
+     */
+    @GetMapping("/brands/list")
+    public R brandRelationList(@RequestParam(value = "catId", required = true) Long catId) {
+        List<BrandEntity> brandEntityList = categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> brandVoList = brandEntityList
+                .stream()
+                .map(brandEntity -> {
+                    BrandVo brandVo = new BrandVo();
+                    brandVo.setBrandId(brandEntity.getBrandId());
+                    brandVo.setBrandName(brandEntity.getName());
+                    return brandVo;
+                }).collect(Collectors.toList());
+        return R.ok().put("data", brandVoList);
     }
 
 

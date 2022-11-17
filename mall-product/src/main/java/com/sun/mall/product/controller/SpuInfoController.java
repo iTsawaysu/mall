@@ -4,6 +4,7 @@ import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.product.entity.SpuInfoEntity;
 import com.sun.mall.product.service.SpuInfoService;
+import com.sun.mall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +48,8 @@ public class SpuInfoController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo) {
-        spuInfoService.save(spuInfo);
+    public R save(@RequestBody SpuSaveVo spuSaveVo) {
+        spuInfoService.saveSpuInfo(spuSaveVo);
         return R.ok();
     }
 

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient("mall-coupon")
 public interface CouponFeignService {
     /**
-     *  1. 服务启动，会自动扫描 @EnableFeignClients 注解指定的包；
-     *  2. 通过 @FeignClient("服务名") 注解，在 注册中心 中找到对应的服务；
-     *  3. 最后再调用 该请求路径所对应的 Controller 方法。
+     *  <p>1. 服务启动，会自动扫描 @EnableFeignClients 注解指定的包；</p>
+     *  <p>2. 通过 @FeignClient("服务名") 注解，在 注册中心 中找到对应的服务；</p>
+     *  <p>3. 最后再调用 该请求路径所对应的 Controller 方法。</p>
      */
     @GetMapping("/coupon/coupon/test")
     public R test();

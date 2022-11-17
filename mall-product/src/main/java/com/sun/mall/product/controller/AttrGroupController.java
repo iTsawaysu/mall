@@ -8,7 +8,8 @@ import com.sun.mall.product.service.AttrAttrgroupRelationService;
 import com.sun.mall.product.service.AttrGroupService;
 import com.sun.mall.product.service.AttrService;
 import com.sun.mall.product.service.CategoryService;
-import com.sun.mall.vo.AttrGroupRelationVo;
+import com.sun.mall.product.vo.AttrGroupRelationVo;
+import com.sun.mall.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,15 @@ public class AttrGroupController {
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     /**
+     * 根据 catelogId 获取该分类下的分组及其属性
+     */
+    @GetMapping("/{catelogId}/withAttr")
+    public R getAttrGroupWithAttrsByCategoryId(@PathVariable("catelogId") Long catelogId) {
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVoList = attrGroupService.getAttrGroupWithAttrsByCategoryId(catelogId);
+        return R.ok().put("data", attrGroupWithAttrsVoList);
+    }
+
+    /**
      * 根据 groupId 查询 当前分组关联的所有属性
      */
     @GetMapping("/{groupId}/attr/relation")
@@ -52,7 +62,7 @@ public class AttrGroupController {
     /**
      * 根据 groupId 查询 当前分组未关联的所有属性
      */
-    @GetMapping("/{groupId}/noattr/relation")
+    @GetMapping("/{groupId}/noAttr/relation")
     public R getNotAssociatedAttrByGroupId(@PathVariable("groupId") Long groupId,
                                            @RequestParam Map<String, Object> params) {
         PageUtils page = attrService.getNotAssociatedAttrByGroupId(groupId, params);

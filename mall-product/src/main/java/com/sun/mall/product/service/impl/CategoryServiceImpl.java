@@ -89,7 +89,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return subcategoryList;
     }
 
-
     @Override
     public void removeCategoriesByIds(List<Long> catIds) {
         // TODO 判断当前删除菜单是否被其他地方引用

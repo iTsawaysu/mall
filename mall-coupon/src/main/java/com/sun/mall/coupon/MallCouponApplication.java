@@ -1,6 +1,5 @@
 package com.sun.mall.coupon;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -9,7 +8,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author sun
  */
 @SpringBootApplication
-@MapperScan("com.sun.mall.coupon.dao")
 @EnableDiscoveryClient
 public class MallCouponApplication {
 

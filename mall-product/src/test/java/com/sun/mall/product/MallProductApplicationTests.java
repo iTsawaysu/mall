@@ -1,5 +1,6 @@
 package com.sun.mall.product;
 
+import cn.hutool.core.util.StrUtil;
 import com.sun.mall.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -28,6 +30,17 @@ public class MallProductApplicationTests {
         } catch (UnknownHostException e) {
             log.error("error: {}", e);
         }
+    }
+
+    @Test
+    public void strJoinTest() {
+        List<String> list = Arrays.asList("你好", "好好学习", "天天向上");
+        System.out.println(list);
+        String join = StrUtil.join(" - ", list);
+        System.out.println(join);
+
+        // [你好, 好好学习, 天天向上]
+        // 你好 - 好好学习 - 天天向上
     }
 
 }

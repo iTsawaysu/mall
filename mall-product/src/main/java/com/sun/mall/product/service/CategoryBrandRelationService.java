@@ -1,6 +1,7 @@
 package com.sun.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sun.mall.product.entity.BrandEntity;
 import com.sun.mall.product.entity.CategoryBrandRelationEntity;
 
 import java.util.List;
@@ -23,5 +24,11 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      * 新增 品牌&分类 关系
      */
     void addBrandCategoryRelation(CategoryBrandRelationEntity categoryBrandRelation);
+
+    /**
+     * 根据 catId 获取该分类关联的品牌
+     */
+    List<BrandEntity> getBrandsByCatId(Long catId);
+
 }
 
