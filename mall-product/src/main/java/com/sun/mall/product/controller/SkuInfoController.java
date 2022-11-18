@@ -25,11 +25,11 @@ public class SkuInfoController {
     private SkuInfoService skuInfoService;
 
     /**
-     * 列表
+     * 检索 SKU
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = skuInfoService.queryPage(params);
+        PageUtils page = skuInfoService.querySkuInfoPageByParams(params);
         return R.ok().put("page", page);
     }
 

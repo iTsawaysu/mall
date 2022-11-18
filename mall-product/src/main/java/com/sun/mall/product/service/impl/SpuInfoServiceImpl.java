@@ -4,10 +4,13 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.mall.common.dto.SkuReductionDTO;
 import com.sun.mall.common.dto.SpuBoundsDTO;
 import com.sun.mall.common.utils.PageUtils;
+import com.sun.mall.common.utils.Query;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.product.dao.SpuInfoDao;
 import com.sun.mall.product.entity.*;
@@ -183,7 +186,34 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Override
     public PageUtils querySpuInfoPageByParams(Map<String, Object> params) {
-        return null;
+        LambdaQueryWrapper<SpuInfoEntity> wrapper = new LambdaQueryWrapper<>();
+
+        String catelogId = (String) params.get("catelogId");
+        if (StrUtil.isNotBlank(catelogId) && !"0".equalsIgnoreCase(catelogId)) {
+            wrapper.eq(SpuInfoEntity::getCatalogId, catelogId);
+        }
+
+        String brandId = (String) params.get("brandId");
+        if (StrUtil.isNotBlank(brandId) && !"0".equalsIgnoreCase(brandId)) {
+            wrapper.eq(SpuInfoEntity::getBrandId, brandId);
+        }
+
+        String status = (String) params.get("status");
+        if (StrUtil.isNotBlank(status)) {
+            wrapper.eq(SpuInfoEntity::getPublishStatus, status);
+        }
+
+        String key = (String) params.get("key");
+        if (StrUtil.isNotBlank(key)) {
+            wrapper.and(w -> {
+                w.eq(SpuInfoEntity::getId, key)
+                        .or()
+                        .like(SpuInfoEntity::getSpuName, key);
+            });
+        }
+
+        IPage page = this.page(new Query().getPage(params), wrapper);
+        return new PageUtils(page);
     }
 
 }
