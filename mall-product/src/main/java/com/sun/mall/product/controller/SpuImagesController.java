@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/spuimages")
+@RequestMapping("/product/spuImages")
 public class SpuImagesController {
     @Autowired
     private SpuImagesService spuImagesService;

@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/skuinfo")
+@RequestMapping("/product/skuInfo")
 public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;

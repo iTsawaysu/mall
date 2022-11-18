@@ -20,20 +20,19 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/spuinfo")
+@RequestMapping("/product/spuInfo")
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
     /**
-     * 列表
+     * SPU 检索
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.querySpuInfoPageByParams(params);
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息

@@ -71,7 +71,7 @@ export default {
         if (this.dataForm.id) {
           this.$http({
             url: this.$http.adornUrl(
-              `/coupon/seckillpromotion/info/${this.dataForm.id}`
+              `/coupon/seckillPromotion/info/${this.dataForm.id}`
             ),
             method: "get",
             params: this.$http.adornParams()
@@ -96,7 +96,7 @@ export default {
         if (valid) {
           this.$http({
             url: this.$http.adornUrl(
-              `/coupon/seckillpromotion/${
+              `/coupon/seckillPromotion/${
                 !this.dataForm.id ? "save" : "update"
               }`
             ),

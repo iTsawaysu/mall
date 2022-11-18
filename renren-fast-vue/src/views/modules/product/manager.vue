@@ -140,7 +140,7 @@ export default {
         getDataList() {
             this.dataListLoading = true;
             this.$http({
-                url: this.$http.adornUrl("/product/skuinfo/list"),
+                url: this.$http.adornUrl("/product/skuInfo/list"),
                 method: "get",
                 params: this.$http.adornParams({
                     page: this.pageIndex,

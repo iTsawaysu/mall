@@ -1,21 +1,14 @@
 package com.sun.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.sun.mall.coupon.entity.CouponSpuCategoryRelationEntity;
-import com.sun.mall.coupon.service.CouponSpuCategoryRelationService;
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
+import com.sun.mall.coupon.entity.CouponSpuCategoryRelationEntity;
+import com.sun.mall.coupon.service.CouponSpuCategoryRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -26,7 +19,7 @@ import com.sun.mall.common.utils.R;
  * @date 2022-10-26 21:09:46
  */
 @RestController
-@RequestMapping("coupon/couponspucategoryrelation")
+@RequestMapping("/coupon/couponSpuCategoryRelation")
 public class CouponSpuCategoryRelationController {
     @Autowired
     private CouponSpuCategoryRelationService couponSpuCategoryRelationService;
@@ -35,10 +28,8 @@ public class CouponSpuCategoryRelationController {
      * 列表
      */
     @RequestMapping("/list")
-    // @RequiresPermissions("coupon:couponspucategoryrelation:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = couponSpuCategoryRelationService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -47,10 +38,8 @@ public class CouponSpuCategoryRelationController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    // @RequiresPermissions("coupon:couponspucategoryrelation:info")
-    public R info(@PathVariable("id") Long id){
-            CouponSpuCategoryRelationEntity couponSpuCategoryRelation = couponSpuCategoryRelationService.getById(id);
-
+    public R info(@PathVariable("id") Long id) {
+        CouponSpuCategoryRelationEntity couponSpuCategoryRelation = couponSpuCategoryRelationService.getById(id);
         return R.ok().put("couponSpuCategoryRelation", couponSpuCategoryRelation);
     }
 
@@ -58,10 +47,8 @@ public class CouponSpuCategoryRelationController {
      * 保存
      */
     @RequestMapping("/save")
-    // @RequiresPermissions("coupon:couponspucategoryrelation:save")
-    public R save(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation){
-            couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
-
+    public R save(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation) {
+        couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
         return R.ok();
     }
 
@@ -69,10 +56,8 @@ public class CouponSpuCategoryRelationController {
      * 修改
      */
     @RequestMapping("/update")
-    // @RequiresPermissions("coupon:couponspucategoryrelation:update")
-    public R update(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation){
-            couponSpuCategoryRelationService.updateById(couponSpuCategoryRelation);
-
+    public R update(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation) {
+        couponSpuCategoryRelationService.updateById(couponSpuCategoryRelation);
         return R.ok();
     }
 
@@ -80,10 +65,8 @@ public class CouponSpuCategoryRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-    // @RequiresPermissions("coupon:couponspucategoryrelation:delete")
-    public R delete(@RequestBody Long[] ids){
-            couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
-
+    public R delete(@RequestBody Long[] ids) {
+        couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

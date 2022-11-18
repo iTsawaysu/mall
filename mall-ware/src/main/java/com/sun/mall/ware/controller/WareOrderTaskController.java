@@ -1,21 +1,14 @@
 package com.sun.mall.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.sun.mall.ware.entity.WareOrderTaskEntity;
-import com.sun.mall.ware.service.WareOrderTaskService;
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
+import com.sun.mall.ware.entity.WareOrderTaskEntity;
+import com.sun.mall.ware.service.WareOrderTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -26,7 +19,7 @@ import com.sun.mall.common.utils.R;
  * @date 2022-10-26 21:06:58
  */
 @RestController
-@RequestMapping("ware/wareordertask")
+@RequestMapping("/ware/wareOrderTask")
 public class WareOrderTaskController {
     @Autowired
     private WareOrderTaskService wareOrderTaskService;
@@ -35,22 +28,17 @@ public class WareOrderTaskController {
      * 列表
      */
     @RequestMapping("/list")
-    // @RequiresPermissions("ware:wareordertask:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareOrderTaskService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    // @RequiresPermissions("ware:wareordertask:info")
-    public R info(@PathVariable("id") Long id){
-            WareOrderTaskEntity wareOrderTask = wareOrderTaskService.getById(id);
-
+    public R info(@PathVariable("id") Long id) {
+        WareOrderTaskEntity wareOrderTask = wareOrderTaskService.getById(id);
         return R.ok().put("wareOrderTask", wareOrderTask);
     }
 
@@ -58,10 +46,8 @@ public class WareOrderTaskController {
      * 保存
      */
     @RequestMapping("/save")
-    // @RequiresPermissions("ware:wareordertask:save")
-    public R save(@RequestBody WareOrderTaskEntity wareOrderTask){
-            wareOrderTaskService.save(wareOrderTask);
-
+    public R save(@RequestBody WareOrderTaskEntity wareOrderTask) {
+        wareOrderTaskService.save(wareOrderTask);
         return R.ok();
     }
 
@@ -69,10 +55,8 @@ public class WareOrderTaskController {
      * 修改
      */
     @RequestMapping("/update")
-    // @RequiresPermissions("ware:wareordertask:update")
-    public R update(@RequestBody WareOrderTaskEntity wareOrderTask){
-            wareOrderTaskService.updateById(wareOrderTask);
-
+    public R update(@RequestBody WareOrderTaskEntity wareOrderTask) {
+        wareOrderTaskService.updateById(wareOrderTask);
         return R.ok();
     }
 
@@ -80,10 +64,8 @@ public class WareOrderTaskController {
      * 删除
      */
     @RequestMapping("/delete")
-    // @RequiresPermissions("ware:wareordertask:delete")
-    public R delete(@RequestBody Long[] ids){
-            wareOrderTaskService.removeByIds(Arrays.asList(ids));
-
+    public R delete(@RequestBody Long[] ids) {
+        wareOrderTaskService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

@@ -118,7 +118,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/order/ordersetting/list'),
+          url: this.$http.adornUrl('/order/orderSetting/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -169,7 +169,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/order/ordersetting/delete'),
+            url: this.$http.adornUrl('/order/orderSetting/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

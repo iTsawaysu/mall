@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/productattrvalue")
+@RequestMapping("/product/productAttrValue")
 public class ProductAttrValueController {
     @Autowired
     private ProductAttrValueService productAttrValueService;

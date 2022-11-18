@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/commentreplay")
+@RequestMapping("/product/commentReplay")
 public class CommentReplayController {
     @Autowired
     private CommentReplayService commentReplayService;

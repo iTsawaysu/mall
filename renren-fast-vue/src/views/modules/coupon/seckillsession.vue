@@ -99,7 +99,7 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/coupon/seckillsession/list"),
+        url: this.$http.adornUrl("/coupon/seckillSession/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -164,7 +164,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/coupon/seckillsession/delete"),
+          url: this.$http.adornUrl("/coupon/seckillSession/delete"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {

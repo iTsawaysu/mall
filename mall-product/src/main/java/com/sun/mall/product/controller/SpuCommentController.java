@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @RestController
 @SuppressWarnings("ALL")
-@RequestMapping("/product/spucomment")
+@RequestMapping("/product/spuComment")
 public class SpuCommentController {
     @Autowired
     private SpuCommentService spuCommentService;

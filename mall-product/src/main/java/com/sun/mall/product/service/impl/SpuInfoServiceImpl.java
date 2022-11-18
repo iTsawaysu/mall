@@ -4,13 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.mall.common.dto.SkuReductionDTO;
 import com.sun.mall.common.dto.SpuBoundsDTO;
 import com.sun.mall.common.utils.PageUtils;
-import com.sun.mall.common.utils.Query;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.product.dao.SpuInfoDao;
 import com.sun.mall.product.entity.*;
@@ -60,15 +57,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Resource
     private CouponFeignService couponFeignService;
-
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SpuInfoEntity> page = this.page(
-                new Query<SpuInfoEntity>().getPage(params),
-                new QueryWrapper<SpuInfoEntity>()
-        );
-        return new PageUtils(page);
-    }
 
     // TODO 待完善
     @Transactional
@@ -191,6 +179,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 }
             });
         }
+    }
+
+    @Override
+    public PageUtils querySpuInfoPageByParams(Map<String, Object> params) {
+        return null;
     }
 
 }

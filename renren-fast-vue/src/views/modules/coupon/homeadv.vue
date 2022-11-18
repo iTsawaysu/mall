@@ -148,7 +148,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/coupon/homeadv/list'),
+          url: this.$http.adornUrl('/coupon/homeAdv/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -199,7 +199,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/coupon/homeadv/delete'),
+            url: this.$http.adornUrl('/coupon/homeAdv/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

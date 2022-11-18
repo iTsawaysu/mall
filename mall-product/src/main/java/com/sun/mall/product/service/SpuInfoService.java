@@ -16,8 +16,8 @@ import java.util.Map;
  */
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-
     void saveSpuInfo(SpuSaveVo spuSaveVo);
+
+    PageUtils querySpuInfoPageByParams(Map<String, Object> params);
 }
 
