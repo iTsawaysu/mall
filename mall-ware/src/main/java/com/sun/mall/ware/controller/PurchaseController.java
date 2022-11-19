@@ -4,6 +4,7 @@ import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
 import com.sun.mall.ware.entity.PurchaseEntity;
 import com.sun.mall.ware.service.PurchaseService;
+import com.sun.mall.ware.vo.PurchaseDoneVo;
 import com.sun.mall.ware.vo.MergeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +83,16 @@ public class PurchaseController {
         purchaseService.mergePurchaseDetailsToPurchaseOrder(mergeVo);
         return R.ok();
     }
+
+    /**
+     * 完成采购
+     */
+    @PostMapping("/done")
+    public R done(@RequestBody PurchaseDoneVo purchaseDoneVo) {
+        purchaseService.completeThePurchase(purchaseDoneVo);
+        return R.ok();
+    }
+
 
     /**
      * 修改

@@ -2,13 +2,17 @@ package com.sun.mall.product.controller;
 
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.common.utils.R;
+import com.sun.mall.product.entity.ProductAttrValueEntity;
 import com.sun.mall.product.service.AttrService;
+import com.sun.mall.product.service.ProductAttrValueService;
 import com.sun.mall.product.vo.AttrResponseVo;
 import com.sun.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,8 +27,12 @@ import java.util.Map;
 @SuppressWarnings("ALL")
 @RequestMapping("/product/attr")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Resource
+    private ProductAttrValueService productAttrValueService;
 
     /**
      * 列表
@@ -33,6 +41,15 @@ public class AttrController {
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = attrService.queryPage(params);
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 获取 SPU 规格
+     */
+    @GetMapping("/base/listForSpu/{spuId}")
+    public R baseListForSpu(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> productAttrValueEntityList = productAttrValueService.getBaseListForSpu(spuId);
+        return R.ok().put("data", productAttrValueEntityList);
     }
 
     /**
@@ -70,6 +87,15 @@ public class AttrController {
     @PostMapping("/update")
     public R update(@RequestBody AttrVo attrVo) {
         attrService.updateAttr(attrVo);
+        return R.ok();
+    }
+
+    /**
+     * 修改商品规格
+     */
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(Long spuId, List<ProductAttrValueEntity> productAttrValueList) {
+        productAttrValueService.updateSpuAttr(spuId, productAttrValueList);
         return R.ok();
     }
 

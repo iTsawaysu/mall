@@ -13,11 +13,15 @@ import com.sun.mall.ware.entity.PurchaseDetailEntity;
 import com.sun.mall.ware.entity.PurchaseEntity;
 import com.sun.mall.ware.service.PurchaseDetailService;
 import com.sun.mall.ware.service.PurchaseService;
+import com.sun.mall.ware.service.WareSkuService;
 import com.sun.mall.ware.vo.MergeVo;
+import com.sun.mall.ware.vo.PurchaseDoneVo;
+import com.sun.mall.ware.vo.PurchaseItemVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +37,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
     @Resource
     private PurchaseDetailService purchaseDetailService;
+
+    @Resource
+    private WareSkuService wareSkuService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -123,13 +130,46 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
                         .collect(Collectors.toList());
                 purchaseDetailService.updateBatchById(purchaseDetailList);
             });
+        } else {
+            throw new RuntimeException(WareConstants.PurchaseDetailStatusEnum.HAS_ERROR.getMsg());
         }
-        throw new RuntimeException(WareConstants.PurchaseDetailStatusEnum.HAS_ERROR.getMsg());
     }
 
     private List<PurchaseDetailEntity> getPurchaseDetailsByPurchaseId(Long id) {
         return purchaseDetailService.lambdaQuery().eq(PurchaseDetailEntity::getPurchaseId, id).list();
     }
 
+
+    @Transactional
+    @Override
+    public void completeThePurchase(PurchaseDoneVo purchaseDoneVo) {
+        // 1. 改变采购项状态
+        List<PurchaseItemVo> items = purchaseDoneVo.getItems();
+        List<PurchaseDetailEntity> purchaseDetailList = new ArrayList<>();
+        Boolean flag = true;
+        for (PurchaseItemVo item : items) {
+            PurchaseDetailEntity purchaseDetail = new PurchaseDetailEntity();
+            if (item.getStatus().equals(WareConstants.PurchaseDetailStatusEnum.HAS_ERROR.getCode())) {
+                flag = false;
+                purchaseDetail.setStatus(item.getStatus());
+            } else {
+                purchaseDetail.setStatus(WareConstants.PurchaseDetailStatusEnum.FINISHED.getCode());
+                // 将采购成功的入库
+                PurchaseDetailEntity detail = purchaseDetailService.getById(item.getItemId());
+                wareSkuService.addStock(detail.getSkuId(), detail.getWareId(), detail.getSkuNum());
+            }
+            purchaseDetail.setId(item.getItemId());
+            purchaseDetailList.add(purchaseDetail);
+        }
+        purchaseDetailService.updateBatchById(purchaseDetailList);
+
+        // 2. 改变采购单状态（其状态的依据是所有采购项的状态）
+        Long purchaseId = purchaseDoneVo.getId();
+        PurchaseEntity purchase = new PurchaseEntity();
+        purchase.setId(purchaseId);
+        purchase.setStatus(flag ? WareConstants.PurchaseStatusEnum.FINISHED.getCode() : WareConstants.PurchaseStatusEnum.HAS_ERROR.getCode());
+        purchase.setUpdateTime(new Date());
+        this.updateById(purchase);
+    }
 
 }

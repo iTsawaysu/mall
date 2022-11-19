@@ -71,7 +71,7 @@ export default {
         },
         getSpuBaseAttrs() {
             this.$http({
-                url: this.$http.adornUrl(`/product/attr/base/listforspu/${this.spuId}`),
+                url: this.$http.adornUrl(`/product/attr/base/listForSpu/${this.spuId}`),
                 method: "get"
             }).then(({data}) => {
                 data.data.forEach(item => {

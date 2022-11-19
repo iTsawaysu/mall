@@ -13,5 +13,11 @@
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
 
+    <update id="updateStock">
+         UPDATE `mall_wms`.wms_ware_sku SET stock = stock + #{skuNum}
+            <where>
+                sku_id = #{skuId} AND ware_id = #{wareId}
+            </where>
+    </update>
 
 </mapper>

@@ -3,6 +3,7 @@ package com.sun.mall.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sun.mall.common.utils.PageUtils;
 import com.sun.mall.ware.entity.PurchaseEntity;
+import com.sun.mall.ware.vo.PurchaseDoneVo;
 import com.sun.mall.ware.vo.MergeVo;
 
 import java.util.List;
@@ -35,5 +36,9 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      */
     void receivedThePurchaseOrder(List<Long> purchaseOrderIdList);
 
+    /**
+     * 完成采购
+     */
+    void completeThePurchase(PurchaseDoneVo purchaseDoneVo);
 }
 
