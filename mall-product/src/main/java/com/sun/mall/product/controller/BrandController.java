@@ -34,7 +34,7 @@ public class BrandController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = brandService.queryPage(params);
         return R.ok().put("page", page);
@@ -44,7 +44,7 @@ public class BrandController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{brandId}")
+    @GetMapping("/info/{brandId}")
     public R info(@PathVariable("brandId") Long brandId) {
         BrandEntity brand = brandService.getById(brandId);
         return R.ok().put("brand", brand);
@@ -53,7 +53,7 @@ public class BrandController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand) {
         brandService.save(brand);
         return R.ok();
@@ -62,7 +62,7 @@ public class BrandController {
     /**
      * 更新品牌表，并且更新品牌分类关联表。
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand) {
         brandService.updateBrandAndRelation(brand);
         return R.ok();
@@ -71,7 +71,7 @@ public class BrandController {
     /**
      * 修改状态
      */
-    @RequestMapping("/update/status")
+    @PostMapping("/update/status")
     public R updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody BrandEntity brand) {
         brandService.updateById(brand);
         return R.ok();
@@ -80,7 +80,7 @@ public class BrandController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] brandIds) {
         brandService.removeByIds(Arrays.asList(brandIds));
         return R.ok();

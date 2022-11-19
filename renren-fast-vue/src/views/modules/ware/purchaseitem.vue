@@ -172,7 +172,7 @@ export default {
     },
     getUnreceivedPurchase() {
       this.$http({
-        url: this.$http.adornUrl("/ware/purchase/unreceive/list"),
+        url: this.$http.adornUrl("/ware/purchase/unreceived/list"),
         method: "get",
         params: this.$http.adornParams({})
       }).then(({ data }) => {

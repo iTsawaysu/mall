@@ -21,22 +21,23 @@ import java.util.Map;
 @RestController
 @RequestMapping("/ware/wareSku")
 public class WareSkuController {
+
     @Autowired
     private WareSkuService wareSkuService;
 
     /**
-     * 列表
+     * 根据 params 条件分页查询展示 商品库存信息
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = wareSkuService.queryPage(params);
+        PageUtils page = wareSkuService.queryWareSkuPageByParams(params);
         return R.ok().put("page", page);
     }
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         WareSkuEntity wareSku = wareSkuService.getById(id);
         return R.ok().put("wareSku", wareSku);
@@ -45,7 +46,7 @@ public class WareSkuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WareSkuEntity wareSku) {
         wareSkuService.save(wareSku);
         return R.ok();
@@ -54,7 +55,7 @@ public class WareSkuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody WareSkuEntity wareSku) {
         wareSkuService.updateById(wareSku);
         return R.ok();
@@ -63,7 +64,7 @@ public class WareSkuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         wareSkuService.removeByIds(Arrays.asList(ids));
         return R.ok();

@@ -27,7 +27,7 @@ public class HomeSubjectController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = homeSubjectService.queryPage(params);
         return R.ok().put("page", page);
@@ -37,7 +37,7 @@ public class HomeSubjectController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         HomeSubjectEntity homeSubject = homeSubjectService.getById(id);
         return R.ok().put("homeSubject", homeSubject);
@@ -46,18 +46,16 @@ public class HomeSubjectController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    // @RequiresPermissions("coupon:homesubject:save")
+    @PostMapping("/save")
     public R save(@RequestBody HomeSubjectEntity homeSubject) {
         homeSubjectService.save(homeSubject);
-
         return R.ok();
     }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody HomeSubjectEntity homeSubject) {
         homeSubjectService.updateById(homeSubject);
         return R.ok();
@@ -66,7 +64,7 @@ public class HomeSubjectController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         homeSubjectService.removeByIds(Arrays.asList(ids));
         return R.ok();

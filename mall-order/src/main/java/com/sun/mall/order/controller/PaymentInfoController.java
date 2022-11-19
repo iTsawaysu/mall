@@ -27,17 +27,16 @@ public class PaymentInfoController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = paymentInfoService.queryPage(params);
         return R.ok().put("page", page);
     }
 
-
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         PaymentInfoEntity paymentInfo = paymentInfoService.getById(id);
         return R.ok().put("paymentInfo", paymentInfo);
@@ -46,7 +45,7 @@ public class PaymentInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody PaymentInfoEntity paymentInfo) {
         paymentInfoService.save(paymentInfo);
         return R.ok();
@@ -55,7 +54,7 @@ public class PaymentInfoController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody PaymentInfoEntity paymentInfo) {
         paymentInfoService.updateById(paymentInfo);
         return R.ok();
@@ -64,7 +63,7 @@ public class PaymentInfoController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         paymentInfoService.removeByIds(Arrays.asList(ids));
         return R.ok();

@@ -4,10 +4,7 @@ import com.sun.mall.common.utils.R;
 import com.sun.mall.product.entity.CategoryEntity;
 import com.sun.mall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +26,7 @@ public class CategoryController {
     /**
      * 查询所有分类及其子分类，以树形结构展示
      */
-    @RequestMapping("/list/tree")
+    @GetMapping("/list/tree")
     public R list() {
         List<CategoryEntity> categoryEntityList = categoryService.displayWithTreeStructure();
         return R.ok().put("data", categoryEntityList);
@@ -39,7 +36,7 @@ public class CategoryController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{catId}")
+    @GetMapping("/info/{catId}")
     public R info(@PathVariable("catId") Long catId) {
         CategoryEntity category = categoryService.getById(catId);
         return R.ok().put("category", category);
@@ -48,7 +45,7 @@ public class CategoryController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody CategoryEntity category) {
         categoryService.save(category);
         return R.ok();
@@ -57,7 +54,7 @@ public class CategoryController {
     /**
      * 更新分类表，并且更新品牌分类关联表。
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody CategoryEntity category) {
         categoryService.updateCategoryAndRelation(category);
         return R.ok();
@@ -66,7 +63,7 @@ public class CategoryController {
     /**
      * 批量修改
      */
-    @RequestMapping("/update/sort")
+    @PostMapping("/update/sort")
     public R updateBatch(@RequestBody CategoryEntity[] categoryEntities) {
          categoryService.updateBatchById(Arrays.asList(categoryEntities));
         return R.ok();
@@ -78,7 +75,7 @@ public class CategoryController {
      * @ReqeustBody 获取请求体中的内容，只有 POST 请求与请求体
      * Spring MVC 自动将请求体中的数据（JSON）转换为对应的对象 Long[]
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] catIds) {
         categoryService.removeCategoriesByIds(Arrays.asList(catIds));
         return R.ok();

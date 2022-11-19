@@ -23,18 +23,18 @@ public class PurchaseDetailController {
     private PurchaseDetailService purchaseDetailService;
 
     /**
-     * 列表
+     * 根据 params 条件分页查询展示 采购需求
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = purchaseDetailService.queryPage(params);
+        PageUtils page = purchaseDetailService.queryPurchaseDetailPageByParams(params);
         return R.ok().put("page", page);
     }
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
         return R.ok().put("purchaseDetail", purchaseDetail);
@@ -43,7 +43,7 @@ public class PurchaseDetailController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
         purchaseDetailService.save(purchaseDetail);
         return R.ok();
@@ -52,7 +52,7 @@ public class PurchaseDetailController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody PurchaseDetailEntity purchaseDetail) {
         purchaseDetailService.updateById(purchaseDetail);
         return R.ok();
@@ -61,7 +61,7 @@ public class PurchaseDetailController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         purchaseDetailService.removeByIds(Arrays.asList(ids));
         return R.ok();

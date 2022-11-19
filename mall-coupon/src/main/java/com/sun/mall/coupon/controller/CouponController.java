@@ -23,6 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/coupon/coupon")
 public class CouponController {
+
     @Autowired
     private CouponService couponService;
 
@@ -34,17 +35,16 @@ public class CouponController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = couponService.queryPage(params);
         return R.ok().put("page", page);
     }
 
-
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
         CouponEntity coupon = couponService.getById(id);
         return R.ok().put("coupon", coupon);
@@ -53,7 +53,7 @@ public class CouponController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody CouponEntity coupon) {
         couponService.save(coupon);
         return R.ok();
@@ -62,7 +62,7 @@ public class CouponController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody CouponEntity coupon) {
         couponService.updateById(coupon);
         return R.ok();
@@ -71,7 +71,7 @@ public class CouponController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
         couponService.removeByIds(Arrays.asList(ids));
         return R.ok();
